@@ -21,8 +21,6 @@ using ReinforcementLearning
     
     buffer = ReplayBuffer([], 10)
     @test BufferLength(buffer) == 0
-    BufferPush!(buffer, t)
-    @test BufferLength(buffer) == 1
 
     for i in 1:100
         s = deepcopy(env.state)

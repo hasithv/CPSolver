@@ -58,7 +58,7 @@ function PolicyUpdate!(tparams::TrainParams, batch::Vector{Transition}; loss = F
 
     expectedStateActionValues = nextStateValues * tparams.gamma .+ rewards
 
-    opt = Flux.Optimiser(ClipValue(100), AdamW(tparams.learningRate))
+    opt = Flux.Optimiser(ClipValue(100), AMSGrad(tparams.learningRate))
     ps = Flux.params(tparams.policyNet.model)
     gs = gradient(() -> loss(stateActionValues, expectedStateActionValues), ps)
     Flux.Optimise.update!(opt, ps, gs)
@@ -70,26 +70,3 @@ function TargetSoftUpdate!(tparams::TrainParams)
     end
 end
 
-#=
-function train!(tparams::TrainParams, env::CartPoleEnv, reward)
-    for episode in 1:tparams.nEpisodes
-        reset!(env)
-        state = deepcopy(env.state)
-        for i in 1:tparams.maxSteps
-            action = SelectAction(tparams, state, episode)
-            env(action)
-            BufferPush!(tparams.buffer, Transition(state, action, reward(state, action), 
-                        deepcopy(env.state), is_terminated(env)))
-            state = deepcopy(env.state)
-            if BufferLength(tparams.buffer) > tparams.batchSize
-                batch = BufferSample(tparams.buffer, tparams.batchSize)
-                PolicyUpdate!(tparams, batch)
-                TargetSoftUpdate!(tparams)
-            end
-            if is_terminated(env)
-                break
-            end
-        end
-    end
-end
-=#

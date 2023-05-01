@@ -9,8 +9,8 @@ gr(show = true)
 
 env = CartPoleEnv()
 tparams = TrainParams(600, 500, .9, 1000, .05, .99, 1e-4, 128, .005, 
-                        DQN(2, 4, Chain(Dense(4, 128, relu), Dense(128, 128), Dense(128, 2))), 
-                        DQN(2, 4, Chain(Dense(4, 128, relu), Dense(128, 128), Dense(128, 2))), 
+                        DQN(2, 4, Chain(Dense(4, 128), Dense(128, 128), Dense(128, 2))), 
+                        DQN(2, 4, Chain(Dense(4, 128), Dense(128, 128), Dense(128, 2))), 
                         ReplayBuffer([], 10000))
 
 
@@ -40,7 +40,7 @@ for episode in iter
         end
         if is_terminated(env)
             push!(episodeSteps, t)
-            display(plot(episodeSteps))
+            # display(plot(episodeSteps))
             break
         end
     end
