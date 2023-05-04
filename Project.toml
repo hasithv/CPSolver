@@ -11,6 +11,7 @@ ReinforcementLearning = "158674fc-8238-5cab-b5ba-03dfc80d1318"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 
 [compat]
+Plots = "1"
 julia = "1"
 
 [extras]
